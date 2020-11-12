@@ -108,9 +108,6 @@ func TestNotifier_Notify(t *testing.T) {
 			ok := errors.As(err, &nErr)
 			assert.True(t, ok)
 			assert.Equal(t, TypeSendError, nErr.Type)
-			if string(message) != "msg 1" {
-				assert.Equal(t, msgSendErrorRateLimiter, nErr.Message)
-			}
 		})
 		_, err := notifier.Notify(msg...)
 		time.Sleep(time.Second)
