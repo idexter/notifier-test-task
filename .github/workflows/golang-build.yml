@@ -1,0 +1,35 @@
+name: build
+on:
+  push:
+    tags:
+      - v*
+    branches:
+      - master
+  pull_request:
+jobs:
+  # The "build" workflow
+  build:
+    name: build-and-tests
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Setup Go
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '^1.15'
+
+      # Run build of the application
+      - name: Run build
+        run: make build
+
+      # Run testing with coverage on the code
+      - name: Run tests (with coverage)
+        run: make ci-coverage-report
+
+      - name: Send coverage report
+        run:  bash <(curl -s https://codecov.io/bash) -f coverage.xml
