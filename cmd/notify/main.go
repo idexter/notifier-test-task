@@ -45,7 +45,7 @@ func main() {
 		if terr != nil {
 			log.Fatalf("Unable to open trace.out file, reason: %v", terr)
 		}
-		defer f.Close() //nolint: errcheck
+		defer f.Close() //nolint: errcheck, gosec
 		if terr = trace.Start(f); terr != nil {
 			log.Fatalf("Unable to start tracing, reason: %v", terr)
 		}
